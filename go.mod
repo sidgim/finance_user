@@ -8,8 +8,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.6.0
 	github.com/joho/godotenv v1.5.1
-	github.com/sidgim/finance_domain v0.0.1
-	github.com/sidgim/finance_shared v0.0.2
+	github.com/sidgim/finance_domain v0.1.1
+	github.com/sidgim/finance_shared v0.0.3
 	gorm.io/gorm v1.26.1
 )
 

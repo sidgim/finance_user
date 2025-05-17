@@ -50,7 +50,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usr, err := h.svc.Create(req)
+	usr, err := h.svc.Create(r.Context(), req)
 	if err != nil {
 		httphelper.WriteError(w, http.StatusInternalServerError, "could not create user")
 		return
@@ -65,7 +65,7 @@ func (h *Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usr, err := h.svc.Get(id)
+	usr, err := h.svc.Get(r.Context(), id)
 	if err != nil {
 		httphelper.WriteError(w, http.StatusInternalServerError, "failed to fetch user")
 		return
@@ -86,7 +86,7 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 		LastName:  q.Get("last_name"),
 	}
 
-	count, err := h.svc.Count(filters)
+	count, err := h.svc.Count(r.Context(), filters)
 	if err != nil {
 		httphelper.WriteError(w, http.StatusInternalServerError, "count failed")
 		return
@@ -97,7 +97,7 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list, err := h.svc.GetAll(filters, m.Offset(), m.Limit())
+	list, err := h.svc.GetAll(r.Context(), filters, m.Offset(), m.Limit())
 	if err != nil {
 		httphelper.WriteError(w, http.StatusInternalServerError, "fetch failed")
 		return
@@ -122,7 +122,7 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	updated, err := h.svc.UpdateContact(id, req)
+	updated, err := h.svc.UpdateContact(r.Context(), id, req)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			httphelper.WriteError(w, http.StatusNotFound, "user not found")
@@ -141,7 +141,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.svc.Delete(id); err != nil {
+	if err := h.svc.Delete(r.Context(), id); err != nil {
 		httphelper.WriteError(w, http.StatusInternalServerError, "delete failed")
 		return
 	}
